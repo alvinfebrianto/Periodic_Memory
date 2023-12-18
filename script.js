@@ -1,4 +1,4 @@
-const icons = ['ambulance', 'anchor', 'balance-scale', 'basketball-ball', 'bath', 'bed', 'beer', 'bicycle', 'binoculars', 'bomb', 'bug', 'car', 'chess-rook', 'chess-queen', 'cloud', 'fighter-jet', 'fire', 'gamepad', 'home', 'sun', 'volleyball-ball', 'chess-knight'];
+const icons = ['hidrogen', 'litium', 'natrium', 'kalium', 'rubidium', 'sesium', 'fransium', 'barium', 'berilium', 'kalsium', 'magnesium', 'radium', 'stronsium', 'aktinium', 'itrium', 'lantanum', 'skandium', 'titanium', 'zirkonium', 'hafnium', 'vanadium', 'tantalum'];
 const board = document.querySelector('.game-board');
 const reset = document.getElementById('reset');
 const replay = document.getElementById('replay');
@@ -65,8 +65,9 @@ function populate(num) {
 		const back = document.createElement('div');
 		front.classList.add('card', 'front');
 		back.classList.add('card', 'back');
-		const icon = document.createElement('i');
-		icon.classList.add('icon','fas', 'fa-' + boardIcons[x]);
+		const icon = document.createElement('img');
+		icon.classList.add('icon');
+		icon.src = 'img/unsur/' + boardIcons[x] + '.png';
 		back.appendChild(icon);
 		cardContainer.appendChild(front);
 		cardContainer.appendChild(back);
@@ -154,7 +155,7 @@ function matchChecker(e){
 		e.target.classList.add('front-open');
 		e.target.nextElementSibling.classList.add('back-open');
 		//keep track of the class of the icons in the clicked cards
-		iconClasses.push(e.target.nextElementSibling.firstChild.classList[2]);
+		iconClasses.push(e.target.nextElementSibling.firstChild.src);
 		//collect the clicked card elements
 		selectedCards.push(e.target);
 		clickCount += 1;
