@@ -111,6 +111,13 @@
       window.location.href = "game.html";
     }
 
+    function toggleOptions() {
+  console.log("Options button clicked");
+  const optionsPopup = document.getElementById('optionsPopup');
+  optionsPopup.style.display = optionsPopup.style.display === 'block' ? 'none' : 'block';
+}
+
+
     document.addEventListener('DOMContentLoaded', function () {
       const musicStatus = localStorage.getItem('musicStatus');
       const bgMusic = document.getElementById('bgMusic');
