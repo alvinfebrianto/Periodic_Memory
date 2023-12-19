@@ -13,7 +13,7 @@ let clickCount = 0;
 let selectedCards = [];
 let iconClasses, sec, moves, wrongMoves, correctMoves, difficulty, difficultyClass, setTimer;
 
-// shuffle function
+// Fungsi untuk mengacak array
 function shuffle(array) {
 	var m = array.length, t, i;
 	while (m) {
@@ -24,7 +24,7 @@ function shuffle(array) {
 	}
 }
 
-// go over the radio buttons and check the difficulty selection
+// Cek pilihan tingkat kesulitan pada radio button
 function checkDifficulty(){
 	[].forEach.call(difficulties, function(input){
 		input.nextElementSibling.classList.remove('checked');
@@ -45,18 +45,19 @@ function checkDifficulty(){
 	});
 }
 
+// Mengisi papan permainan dengan kartu
 function populate(num) {
 	iconClasses = [];
 	clickCount = 0;
 	board.innerHTML = '';
-	//LOGIC IS: shuffle the main array and slice half the number of cards
-	//this is to always get a random selection of icons
+	// Mengacak array utama dan memotong setengah jumlah kartu
+	// Mendapatkan pilihan gambar yang acak
 	shuffle(icons);
 	let boardIcons = icons.slice(0, num/2);
-	//duplicate the array values to make pairs and shuffle this new array
+	// Duplikasi nilai-nilai array untuk membuat pasangan dan mengacak array baru ini
 	boardIcons = boardIcons.concat(boardIcons);
 	shuffle(boardIcons);
-	//actually populate HTML
+	// Mengisi HTML sebenarnya
 	const fragment = document.createDocumentFragment();
 	for (let x = 0; x < num; x++) {
 		const cardContainer = document.createElement('div');
@@ -88,7 +89,7 @@ function stopwatch(){
 }
 
 function rating(num) {
-	//star rating differs with difficulty. Allow as many wrong moves as card pairs, and then another 50% to next level. 
+	// Penilaian bintang/rating berbeda dengan tingkat kesulitan
 	switch (difficultyClass) {
 		case 'easy' :
 			if (num === 2) {
@@ -114,8 +115,9 @@ function rating(num) {
 	}
 }
 
-function checkwin(num) {
-	//easy won with 2 correct moves, normal with 8 and hard with 18
+// Memeriksa apakah permainan sudah dimenangkan
+function checkWin(num) {
+	// Level 1 menang dengan 2 pasangan kartu benar, level 2 dengan 8, dan level 3 dengan 18
 	let won;
 	switch (difficultyClass) {
 		case 'easy' :
@@ -135,37 +137,38 @@ function checkwin(num) {
 			break;
 	};
 	if (won === true) {
-		//wait 1 sec for the cards to flip right side up
+		// Tunggu 1 detik agar kartu bisa terlihat
 		setTimeout(function(){
-			//fill in and display modal
+			// Isi dan tampilkan modal
 			document.getElementById('final-time').innerText = timer.innerText;
 			document.getElementById('final-moves').innerText = moves;
 			document.getElementById('final-rating').innerHTML = document.getElementById('stars').innerHTML;
 			modal.classList.remove('hide');
-			//stop the stopwatch
+			// Hentikan stopwatch
 			clearInterval(setTimer);
 		}, 1000);
 	}
 }
 
+// Memeriksa apakah kartu cocok
 function matchChecker(e){
-	//LOGIC IS: make sure the click target is a card and prevent doubleclicking 
+	// Pastikan target klik adalah kartu dan hindari double-clicking
 	if (e.target.classList.contains('card') && !e.target.classList.contains('front-open')) {
-		//flip the card on click
+		// Putar kartu saat diklik
 		e.target.classList.add('front-open');
 		e.target.nextElementSibling.classList.add('back-open');
-		//keep track of the class of the icons in the clicked cards
+		// Catat sumber gambar di kartu yang diklik
 		iconClasses.push(e.target.nextElementSibling.firstChild.src);
-		//collect the clicked card elements
+		// Kumpulkan elemen kartu yang diklik
 		selectedCards.push(e.target);
 		clickCount += 1;
-		//allow only two clicks and then verify the match
+		// Hanya izinkan dua klik lalu periksa kecocokan gambar
 		if (clickCount === 2) {
 			clickCount = 0;
-			//2 clicks make 1 move
+			// 2 klik menghasilkan 1 gerakan
 			moves +=1;
 			document.getElementById('moves').innerHTML = moves;
-			//remove the ability to click extra cards for 1 second while the 2 already clicked cards are checked
+			// Mencegah klik kartu tambahan selama 1 detik saat 2 kartu yang sudah diklik sedang diperiksa
 			board.removeEventListener('click', matchChecker);
 			setTimeout(function(){
 				board.addEventListener('click', matchChecker);
@@ -173,20 +176,20 @@ function matchChecker(e){
 			if (iconClasses[0]===iconClasses[1]) {
 				console.log('match');
 				correctMoves += 1;
-				//check if game is won
-				checkwin(correctMoves);
+				// Periksa apakah permainan sudah dimenangkan
+				checkWin(correctMoves);
 				iconClasses = [];
-				//add the class 'correct' to keep the matched cards open
+				// Tambahkan kelas 'correct' untuk menjaga kartu yang cocok tetap terbuka
 				[].forEach.call(selectedCards, c =>{
 					c.classList.add('front-correct');
 					c.nextElementSibling.classList.add('back-correct');	
 				});
 			} else {
 				console.log('not match');
-				//remove stars if too many wrong moves are made, how many depends on the difficulty
+				// Hapus bintang jika terlalu banyak gerakan yang salah, seberapa banyak tergantung pada tingkat kesulitan
 				wrongMoves +=1;
 				rating(wrongMoves);
-				//wait 1 second before closing mismatching cards, so the player can see what they were
+				// Tunggu 1 detik sebelum menutup kartu yang tidak cocok, agar pemain bisa melihat kartu apa yang mereka pilih
 				setTimeout(function(){
 					iconClasses = [];
 					[].forEach.call(selectedCards, c =>{
@@ -201,7 +204,7 @@ function matchChecker(e){
 }
 
 function startGame() {
-	//cleanup board and reset everything
+	// Bersihkan papan permainan dan atur ulang semuanya
 	sec = 0; 
 	moves = 0;
 	wrongMoves = 0;
@@ -212,10 +215,10 @@ function startGame() {
 	ratingPerfect.classList.remove('hide');
 	ratingAverage.classList.remove('hide');
 	clearInterval(setTimer);
-	//restart game logic
+	// Memulai logika permainan kembali
 	checkDifficulty();
 	populate(difficulty);
-	//start the timer on first click
+	// Memulai timer saat klik pertama
 	board.addEventListener('click', function clickOnce(){
 		clearInterval(setTimer);
 		setTimer = setInterval(stopwatch, 1000);
