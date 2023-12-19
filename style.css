@@ -83,6 +83,7 @@ label {
 	font-weight: bold;
 	text-align: center;
 	line-height: 50px;
+	margin-top: 2rem !important;
 	margin: 0;
 	padding: 0;
 	background: #D0E7D2;
@@ -137,17 +138,14 @@ label:nth-of-type(2) {
 .easy {
 	padding-bottom: 48%;
 	width: 48%;
-	font-size: 3rem;
 }
 .normal {
 	padding-bottom: 23%;
 	width: 23%;	
-	font-size: 2rem;
 }
 .hard {
 	padding-bottom: 14.65%;
 	width: 14.65%;
-	font-size: 1.2rem;
 }
 .front-open {
 	transform: rotateY(-180deg);
