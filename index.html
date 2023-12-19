@@ -1,55 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Periodic Memory</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Periodic Memory</h1>
-      <div class="dashboard">
-        <div class="dashboard-element">
-          <i class="dashboard-icon fas fa-stopwatch"></i>
-          <span id="timer"></span>
-        </div>
-        <div class="dashboard-element">
-          <i class="dashboard-icon fas fa-clone"></i>
-          <span id="moves"></span>
-        </div>
-        <div class="dashboard-element">
-          <i id="reset" class="dashboard-icon fas fa-redo-alt"></i>
-        </div>
-      </div>
-      <div id="stars">
-        <i class="fas fa-star" id="rating-poor"></i>
-        <i class="fas fa-star" id="rating-average"></i>
-        <i class="fas fa-star" id="rating-perfect"></i>
-      </div>
-      <div id="form">
-        <input type="radio" id="easyMode" name="difficulty" value="easy" checked="checked" />
-        <label class="checked" for="easyMode">Level 1</label>
-        <input type="radio" id="normalMode" name="difficulty" value="normal" />
-        <label for="normalMode">Level 2</label>
-        <input type="radio" id="hardMode" name="difficulty" value="hard" />
-        <label for="hardMode">Level 3</label>
-      </div>
-      <div class="game-board"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Periodic Memory - Start</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css"
+    integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQKgFplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css"
+    integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .start-container {
+      text-align: center;
+    }
+
+    .logo-container {
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 150px;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    .controls-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #optionsPopup {
+      display: none;
+      text-align: left;
+    }
+
+    .music-options {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="start-container">
+    <h1>Periodic Memory</h1>
+    <div class="logo-container">
+      <img src="img/logo.png" class="logo" alt="Logo">
     </div>
-    <div class="modal">
-      <div class="modal-inner">
-        <h3>Congratulations!</h3>
-        <p class="modal-text">You solved it in <span id="final-time"></span> seconds with <span id="final-moves"></span> moves</p>
-        <p class="modal-text" id="final-rating"></p>
-        <p class="modal-text" id="replay"><i class="fas fa-redo-alt"></i> Play again?</p>
+    <p id="result"></p>
+    <button id="start" onclick="startGame()"><strong>Start</strong></button>
+    <button id="options" onclick="toggleOptions()"><strong>Options</strong></button>
+    <div class="options-popup" id="optionsPopup">
+      <label for="music">Music:</label>
+      <div class="music-options">
+        <label>
+          <input type="radio" name="music" value="on" id="musicOn"> On
+        </label>
+        <label>
+          <input type="radio" name="music" value="off" id="musicOff" checked> Off
+        </label>
       </div>
+      <audio id="bgMusic" src="img/music/assets_bg-music.mp3" loop></audio>
+      <button id="optionsOk" onclick="applyOptions()">OK</button>
     </div>
-    <script src="script.js"></script>
-  </body>
+  </div>
+
+  <script>
+    function applyOptions() {
+      const bgMusic = document.getElementById('bgMusic');
+      const musicOn = document.getElementById('musicOn').checked;
+
+      if (musicOn) {
+        bgMusic.play();
+      } else {
+        bgMusic.pause();
+      }
+
+      localStorage.setItem('musicStatus', musicOn ? 'on' : 'off');
+      toggleOptions();
+    }
+
+    function startGame() {
+      const musicStatus = localStorage.getItem('musicStatus');
+
+      if (musicStatus === 'on') {
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.play();
+      }
+
+      window.location.href = "game.html";
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const musicStatus = localStorage.getItem('musicStatus');
+      const bgMusic = document.getElementById('bgMusic');
+
+      if (musicStatus === 'on') {
+        bgMusic.play();
+      }
+    });
+  </script>
+</body>
+
 </html>

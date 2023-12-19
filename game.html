@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Periodic Memory</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Periodic Memory</h1>
+      <div class="dashboard">
+        <div class="dashboard-element">
+          <i class="dashboard-icon fas fa-stopwatch"></i>
+          <span id="timer"></span>
+        </div>
+        <div class="dashboard-element">
+          <i class="dashboard-icon fas fa-clone"></i>
+          <span id="moves"></span>
+        </div>
+        <div class="dashboard-element">
+          <i id="reset" class="dashboard-icon fas fa-redo-alt"></i>
+        </div>
+      </div>
+      <div id="stars">
+        <i class="fas fa-star" id="rating-poor"></i>
+        <i class="fas fa-star" id="rating-average"></i>
+        <i class="fas fa-star" id="rating-perfect"></i>
+      </div>
+      <div id="form">
+        <input type="radio" id="easyMode" name="difficulty" value="easy" checked="checked" />
+        <label class="checked" for="easyMode">Level 1</label>
+        <input type="radio" id="normalMode" name="difficulty" value="normal" />
+        <label for="normalMode">Level 2</label>
+        <input type="radio" id="hardMode" name="difficulty" value="hard" />
+        <label for="hardMode">Level 3</label>
+      </div>
+      <div class="game-board"></div>
+    </div>
+    <div class="modal">
+      <div class="modal-inner">
+        <h3>Congratulations!</h3>
+        <p class="modal-text">You solved it in <span id="final-time"></span> seconds with <span id="final-moves"></span> moves</p>
+        <p class="modal-text" id="final-rating"></p>
+        <p class="modal-text" id="replay"><i class="fas fa-redo-alt"></i> Play again?</p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
